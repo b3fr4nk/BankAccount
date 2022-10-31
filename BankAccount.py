@@ -33,8 +33,41 @@ class Bank:
         Return: None
         """
 
-        account_index = find_account(account_num)
+        account_index = self.find_account(account_num)
         self.accounts[account_index].deposit(amount)
+
+    def withdraw(self, amount, account_num):
+        """
+        withdraws money into account with specified account number
+
+        Args: self, amount(float), account_num(str)
+
+        Return: None
+        """
+
+        account_index = self.find_account(account_num)
+        self.accounts[account_index].withdraw(amount)
+
+    def transfer(self, amount, to_account_num, from_account_num):
+        """
+        moves an amount of money from one accoun to another
+
+        Args: self, amount, to_account_num(str), from_account_num(str)
+
+        Return: bool
+        """
+
+        to_account_index = self.find_account(to_account_num)
+        from_account_index = self.find_account(from_account_num)
+
+        withdrawn = self.accounts[from_account_index].withdraw(amount)
+        if withdrawn:
+            self.accounts[to_account_index].deposit(amount)
+            print("transfer complete")
+            return True
+        return False
+
+
 
     def find_account(self, account_num):
         """
@@ -44,7 +77,8 @@ class Bank:
         """
 
         for i in range(len(self.accounts)):
-            if account.get_account_number() == account_num:
+            print(i)
+            if self.accounts[i].account_number == account_num:
                 return i
         print("Unable to find account with matching account number")
         return None
@@ -77,12 +111,15 @@ class BankAccount:
 
         Args: self, amount(int)
 
-        Return: None
+        Return: bool
         """
 
         if self.balance - amount > 0:
             self.balance -= amount
             print(f"Amount withdrawn: ${amount} new balance: ${self.balance}")
+            return True
+        print("insuficient funds")
+        return False
 
     def get_balance(self):
         """
@@ -157,6 +194,7 @@ account3.add_interest()
 account3.print_statement()
 
 mitchell_account = BankAccount("Mitchell", "03141592", 0)
+bank1.create_account(mitchell_account)
 
 mitchell_account.deposit(400000)
 
@@ -167,4 +205,6 @@ mitchell_account.print_statement()
 mitchell_account.withdraw(150)
 mitchell_account.print_statement()
 
-bank1.deposit(300, "03141592")
+bank1.deposit(300, "00123456")
+
+bank1.transfer(100, "03141592", "00069420")
