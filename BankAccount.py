@@ -1,3 +1,54 @@
+class Bank:
+    """
+    A python class to hold bank accounts in a central location
+
+    Args: list of BankAccount objects
+
+    Return: Bank object
+    """
+
+    accounts = []
+
+    def __init__(self, *accounts):
+        for account in accounts:
+            self.accounts.append(account)
+
+    def create_account(self, account):
+        """
+        Adds a new account to the bank
+
+        Args: self, BankAccount object
+
+        Return: None
+        """
+
+        self.accounts.append(account)
+
+    def deposit(self, amount, account_num):
+        """
+        deposits money into account with specified account number
+
+        Args: self, amount(float), account_num(str)
+
+        Return: None
+        """
+
+        account_index = find_account(account_num)
+        self.accounts[account_index].deposit(amount)
+
+    def find_account(self, account_num):
+        """
+        finds an account held in the bank via the bank account number
+
+        Args: self, account_num(int)
+        """
+
+        for i in range(len(self.accounts)):
+            if account.get_account_number() == account_num:
+                return i
+        print("Unable to find account with matching account number")
+        return None
+
 class BankAccount:
     """
     A python class to approximate how a bank account works
@@ -89,6 +140,8 @@ account1 = BankAccount("Bob Cheddar", "00123456", 10000)
 account2 = BankAccount("Alfalfa Smith", "00069420", 170)
 account3 = BankAccount("Andreas Three", "000333333", 300000000000)
 
+bank1 = Bank(account1, account2, account3)
+
 account1.print_statement()
 
 account2.print_statement()
@@ -113,3 +166,5 @@ mitchell_account.print_statement()
 
 mitchell_account.withdraw(150)
 mitchell_account.print_statement()
+
+bank1.deposit(300, "03141592")
