@@ -1,3 +1,5 @@
+import random
+
 class Bank:
     """
     A python class to hold bank accounts in a central location
@@ -28,7 +30,7 @@ class Bank:
         """
         deposits money into account with specified account number
 
-        Args: self, amount(float), account_num(str)
+        Args: self, amount(float), account_num(int)
 
         Return: None
         """
@@ -40,7 +42,7 @@ class Bank:
         """
         withdraws money into account with specified account number
 
-        Args: self, amount(float), account_num(str)
+        Args: self, amount(float), account_num(int)
 
         Return: None
         """
@@ -52,7 +54,7 @@ class Bank:
         """
         moves an amount of money from one accoun to another
 
-        Args: self, amount, to_account_num(str), from_account_num(str)
+        Args: self, amount, to_account_num(int), from_account_num(int)
 
         Return: bool
         """
@@ -74,7 +76,7 @@ class Bank:
         """
         withdraws money into account with specified account number
 
-        Args: self, amount(float), account_num(str)
+        Args: self, amount(float), account_num(int)
 
         Return: None
         """
@@ -86,7 +88,7 @@ class Bank:
         """
         moves an amount of money from one accoun to another
 
-        Args: self, amount, to_account_num(str), from_account_num(str)
+        Args: self, amount, to_account_num(int), from_account_num(int)
 
         Return: bool
         """
@@ -122,10 +124,12 @@ class BankAccount:
     A python class to approximate how a bank account works
     """
 
-    def __init__(self, full_name, account_number, balance):
+    balance = 0
+    account_number = random.randrange(10000000, 99999999)
+
+    def __init__(self, full_name):
         self.full_name = full_name
-        self.account_number = account_number
-        self.balance = balance
+
 
     def deposit(self, amount):
         """
@@ -195,21 +199,21 @@ class BankAccount:
         """
         hides all but the last four digits of the account number
 
-        Args: self, account_number(str)
+        Args: self, account_number(int)
 
         return: (str)
         """
-
-        length = len(self.account_number)
-        last4 = self.account_number[-4:length]
+        account_num_str = f"{self.account_number}"
+        length = len(account_num_str)
+        last4 = account_num_str[-4:length]
 
         return "*" * (length-4) + last4
 
 # testing
 
-account1 = BankAccount("Bob Cheddar", "00123456", 10000)
-account2 = BankAccount("Alfalfa Smith", "00069420", 170)
-account3 = BankAccount("Andreas Three", "000333333", 300000000000)
+account1 = BankAccount("Bob Cheddar")
+account2 = BankAccount("Alfalfa Smith")
+account3 = BankAccount("Andreas Three")
 
 bank1 = Bank(account1, account2, account3)
 
@@ -218,16 +222,17 @@ account1.print_statement()
 account2.print_statement()
 account2.get_balance()
 
-account2.deposit(350)
+account2.deposit(550)
 
 account2.withdraw(999)
 
 account2.withdraw(450)
 
+account3.deposit(1000000000)
 account3.add_interest()
 account3.print_statement()
 
-mitchell_account = BankAccount("Mitchell", "03141592", 0)
+mitchell_account = BankAccount("Mitchell")
 bank1.create_account(mitchell_account)
 
 mitchell_account.deposit(400000)
@@ -239,6 +244,6 @@ mitchell_account.print_statement()
 mitchell_account.withdraw(150)
 mitchell_account.print_statement()
 
-bank1.deposit(300, "00123456")
+bank1.deposit(300, mitchell_account.account_number)
 
-bank1.transfer(100, "03141592", "00069420")
+bank1.transfer(100, mitchell_account.account_number, account2.account_number)
