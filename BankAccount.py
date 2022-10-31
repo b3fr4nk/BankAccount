@@ -60,6 +60,40 @@ class Bank:
         to_account_index = self.find_account(to_account_num)
         from_account_index = self.find_account(from_account_num)
 
+        #check if from account has enough money available
+        withdrawn = self.accounts[from_account_index].withdraw(amount)
+        if withdrawn:
+            self.accounts[to_account_index].deposit(amount)
+            print("transfer complete")
+            return True
+        return False
+
+
+
+    def withdraw(self, amount, account_num):
+        """
+        withdraws money into account with specified account number
+
+        Args: self, amount(float), account_num(str)
+
+        Return: None
+        """
+
+        account_index = self.find_account(account_num)
+        self.accounts[account_index].withdraw(amount)
+
+    def transfer(self, amount, to_account_num, from_account_num):
+        """
+        moves an amount of money from one accoun to another
+
+        Args: self, amount, to_account_num(str), from_account_num(str)
+
+        Return: bool
+        """
+
+        to_account_index = self.find_account(to_account_num)
+        from_account_index = self.find_account(from_account_num)
+
         withdrawn = self.accounts[from_account_index].withdraw(amount)
         if withdrawn:
             self.accounts[to_account_index].deposit(amount)
@@ -75,7 +109,7 @@ class Bank:
 
         Args: self, account_num(int)
         """
-
+        #loop over every account in bank to find the account with a matching account number
         for i in range(len(self.accounts)):
             print(i)
             if self.accounts[i].account_number == account_num:
