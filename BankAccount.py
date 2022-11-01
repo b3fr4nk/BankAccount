@@ -125,10 +125,10 @@ class BankAccount:
     """
 
     balance = 0
-    account_number = random.randrange(10000000, 99999999)
-
+    
     def __init__(self, full_name):
         self.full_name = full_name
+        self.account_number = random.randrange(10000000, 99999999)
 
 
     def deposit(self, amount):
